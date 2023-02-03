@@ -17,7 +17,7 @@ namespace sistemadeTransporteEscolar
         public Form1()
         {
             InitializeComponent();
-            label3.Text = Environment.CurrentDirectory.ToString();
+            label3.Text = Global.Way.ToString();
             F_Login f_login = new F_Login(this); //user: admin; password: 123
             f_login.ShowDialog();
         }

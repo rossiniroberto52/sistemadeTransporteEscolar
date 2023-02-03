@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
 
 namespace sistemadeTransporteEscolar
 {
@@ -91,6 +96,28 @@ namespace sistemadeTransporteEscolar
             }
             Banco.StudentUpdate(estudante);
             dgv_usuarios.DataSource = Banco.ObterStudentIdNomePago();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string NomeComprovante = Global.Way + "\\comprovante.pdf";
+            FileStream PdfArquive = new FileStream(NomeComprovante, FileMode.Create);
+            Document doc = new Document(PageSize.A4);
+            PdfWriter pdfWriter = PdfWriter.GetInstance(doc, PdfArquive);
+
+            //doc.Open();
+            string dados = "";
+
+            Paragraph paragrafo = new Paragraph(dados, new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL,14,(int)FontStyle.Bold));
+            
+            paragrafo.Alignment = Element.ALIGN_CENTER;
+            paragrafo.Add("Vam da tia Kially\n");
+
+            
+
+
+
+            doc.Open();
         }
     }
 }

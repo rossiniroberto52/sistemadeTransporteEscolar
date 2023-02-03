@@ -8,15 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DocumentFormat.OpenXml.Office2019.Drawing;
+using DocumentFormat.OpenXml.Vml;
+using ImageProcessor;
 using iTextSharp;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-
+using iTextSharp.text.pdf.codec;
 
 namespace sistemadeTransporteEscolar
 {
     public partial class F_StudentMananger : Form
     {
+        string ValContratual;
         public F_StudentMananger()
         {
             InitializeComponent();
@@ -58,6 +62,7 @@ namespace sistemadeTransporteEscolar
                 tb_TelAluno.Text = dt.Rows[0].Field<string>("T_FONE_ALUNO").ToString();
                 tb_val.Text = dt.Rows[0].Field<string>("T_VAL").ToString();
                 //cb_pago.Text = dt.Rows[0].Field<bool?>("B_PAGO").ToString();
+                ValContratual = tb_val.Text;
                 if (dt.Rows[0].Field<bool?>("B_PAGO") == null)
                 {   
                     pago = "Não";
@@ -100,7 +105,12 @@ namespace sistemadeTransporteEscolar
 
         private void button4_Click(object sender, EventArgs e)
         {
+            string imageSrc = "images\\logoTemp.png";
+
+            //ImageData data = ImageFactory.create(imageSrc);
+
             string NomeComprovante = Global.Way + "\\comprovante.pdf";
+
             FileStream PdfArquive = new FileStream(NomeComprovante, FileMode.Create);
             Document doc = new Document(PageSize.A4);
             PdfWriter pdfWriter = PdfWriter.GetInstance(doc, PdfArquive);
@@ -112,12 +122,17 @@ namespace sistemadeTransporteEscolar
             
             paragrafo.Alignment = Element.ALIGN_CENTER;
             paragrafo.Add("Vam da tia Kially\n");
+            //paragrafo.Add(PngWriter());
 
-            
-
+            paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
+            paragrafo.Alignment = Element.ALIGN_CENTER;
+            paragrafo.Add("Valor contartual: ");
+            paragrafo.Add(ValContratual);
 
 
             doc.Open();
+            doc.Add(paragrafo);
+            doc.Close();
         }
     }
 }

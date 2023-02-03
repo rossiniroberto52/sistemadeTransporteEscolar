@@ -100,18 +100,24 @@ namespace sistemadeTransporteEscolar
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string NomeComprovante = Global.Way + "teste.pdf";
+            string NomeComprovante = Global.Way + "\\comprovante.pdf";
             FileStream PdfArquive = new FileStream(NomeComprovante, FileMode.Create);
             Document doc = new Document(PageSize.A4);
             PdfWriter pdfWriter = PdfWriter.GetInstance(doc, PdfArquive);
 
-            doc.Open();
+            //doc.Open();
             string dados = "";
 
             Paragraph paragrafo = new Paragraph(dados, new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL,14,(int)FontStyle.Bold));
-
+            
             paragrafo.Alignment = Element.ALIGN_CENTER;
-            paragrafo.Add("Vam da tia Kially");
+            paragrafo.Add("Vam da tia Kially\n");
+
+            
+
+
+
+            doc.Open();
         }
     }
 }

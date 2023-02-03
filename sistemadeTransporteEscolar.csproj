@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banco.cs" />
+    <Compile Include="Comprovante.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

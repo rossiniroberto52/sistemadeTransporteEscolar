@@ -8,15 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DocumentFormat.OpenXml.Office2019.Drawing;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Vml;
+using ImageProcessor;
 using iTextSharp;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-
+using iTextSharp.text.pdf.codec;
 
 namespace sistemadeTransporteEscolar
 {
     public partial class F_StudentMananger : Form
     {
+        string ValContratual;
         public F_StudentMananger()
         {
             InitializeComponent();
@@ -58,6 +63,7 @@ namespace sistemadeTransporteEscolar
                 tb_TelAluno.Text = dt.Rows[0].Field<string>("T_FONE_ALUNO").ToString();
                 tb_val.Text = dt.Rows[0].Field<string>("T_VAL").ToString();
                 //cb_pago.Text = dt.Rows[0].Field<bool?>("B_PAGO").ToString();
+                ValContratual = tb_val.Text;
                 if (dt.Rows[0].Field<bool?>("B_PAGO") == null)
                 {   
                     pago = "Não";
@@ -100,24 +106,61 @@ namespace sistemadeTransporteEscolar
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string NomeComprovante = Global.Way + "\\comprovante.pdf";
-            FileStream PdfArquive = new FileStream(NomeComprovante, FileMode.Create);
-            Document doc = new Document(PageSize.A4);
-            PdfWriter pdfWriter = PdfWriter.GetInstance(doc, PdfArquive);
 
-            //doc.Open();
-            string dados = "";
+            if (cb_pago.Text == "Sim")
+            {
+                try
+                {
+                    //string imageSrc = Properties.Resources.logoTemp.ToString();
 
-            Paragraph paragrafo = new Paragraph(dados, new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL,14,(int)FontStyle.Bold));
-            
-            paragrafo.Alignment = Element.ALIGN_CENTER;
-            paragrafo.Add("Vam da tia Kially\n");
+                    //ImageData data = ImageFactory.create(imageSrc);
 
-            
+                    string NomeComprovante = Global.Way + "\\comprovante.pdf";
 
+                    FileStream PdfArquive = new FileStream(NomeComprovante, FileMode.Create);
+                    Document doc = new Document(PageSize.A4);
+                    PdfWriter pdfWriter = PdfWriter.GetInstance(doc, PdfArquive);
 
+                    //doc.Open();
+                    string dados = "";
 
-            doc.Open();
+                    Paragraph paragrafo = new Paragraph(dados, new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Bold));
+
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Vam da tia Kially\n");
+
+                    //To-do
+
+                    //add LOGO in pdf
+                    /*System.Drawing.Image pImage = System.Drawing.Image.FromFile("C:\\Users\\rossi\\OneDrive\\Documentos\\projeto_mamae\\imgs\\logoTemp.png");
+                    iTextSharp.text.Image itextImage = iTextSharp.text.Image.GetInstance(pImage, System.Drawing.Imaging.ImageFormat.Png);
+                    itextImage.Alignment = Element.ALIGN_LEFT;*/
+                    //paragrafo.Add(PngWriter());
+
+                    paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Valor contartual: ");
+                    paragrafo.Add(ValContratual + "\n");
+                    paragrafo.Add("\n");
+                    paragrafo.Add("\n");
+
+                    paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Assinatura: Kially Souto Maior Da Silva");
+
+                    doc.Open();
+                    doc.Add(paragrafo);
+                    doc.Close();
+                }catch (Exception ex)
+                {
+                    MessageBox.Show("Fatal Error in pdf gen: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Aluno ainda não pago! o comprovante sera gerado quando a caixa de 'Pago' for 'Sim'");
+            }
         }
+            
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DocumentFormat.OpenXml.Office2019.Drawing;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Vml;
 using ImageProcessor;
 using iTextSharp;
@@ -105,34 +106,61 @@ namespace sistemadeTransporteEscolar
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string imageSrc = "images\\logoTemp.png";
 
-            //ImageData data = ImageFactory.create(imageSrc);
+            if (cb_pago.Text == "Sim")
+            {
+                try
+                {
+                    //string imageSrc = Properties.Resources.logoTemp.ToString();
 
-            string NomeComprovante = Global.Way + "\\comprovante.pdf";
+                    //ImageData data = ImageFactory.create(imageSrc);
 
-            FileStream PdfArquive = new FileStream(NomeComprovante, FileMode.Create);
-            Document doc = new Document(PageSize.A4);
-            PdfWriter pdfWriter = PdfWriter.GetInstance(doc, PdfArquive);
+                    string NomeComprovante = Global.Way + "\\comprovante.pdf";
 
-            //doc.Open();
-            string dados = "";
+                    FileStream PdfArquive = new FileStream(NomeComprovante, FileMode.Create);
+                    Document doc = new Document(PageSize.A4);
+                    PdfWriter pdfWriter = PdfWriter.GetInstance(doc, PdfArquive);
 
-            Paragraph paragrafo = new Paragraph(dados, new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL,14,(int)FontStyle.Bold));
-            
-            paragrafo.Alignment = Element.ALIGN_CENTER;
-            paragrafo.Add("Vam da tia Kially\n");
-            //paragrafo.Add(PngWriter());
+                    //doc.Open();
+                    string dados = "";
 
-            paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
-            paragrafo.Alignment = Element.ALIGN_CENTER;
-            paragrafo.Add("Valor contartual: ");
-            paragrafo.Add(ValContratual);
+                    Paragraph paragrafo = new Paragraph(dados, new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Bold));
 
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Vam da tia Kially\n");
 
-            doc.Open();
-            doc.Add(paragrafo);
-            doc.Close();
+                    //To-do
+
+                    //add LOGO in pdf
+                    /*System.Drawing.Image pImage = System.Drawing.Image.FromFile("C:\\Users\\rossi\\OneDrive\\Documentos\\projeto_mamae\\imgs\\logoTemp.png");
+                    iTextSharp.text.Image itextImage = iTextSharp.text.Image.GetInstance(pImage, System.Drawing.Imaging.ImageFormat.Png);
+                    itextImage.Alignment = Element.ALIGN_LEFT;*/
+                    //paragrafo.Add(PngWriter());
+
+                    paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Valor contartual: ");
+                    paragrafo.Add(ValContratual + "\n");
+                    paragrafo.Add("\n");
+                    paragrafo.Add("\n");
+
+                    paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Assinatura: Kially Souto Maior Da Silva");
+
+                    doc.Open();
+                    doc.Add(paragrafo);
+                    doc.Close();
+                }catch (Exception ex)
+                {
+                    MessageBox.Show("Fatal Error in pdf gen: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Aluno ainda não pago! o comprovante sera gerado quando a caixa de 'Pago' for 'Sim'");
+            }
         }
+            
     }
 }

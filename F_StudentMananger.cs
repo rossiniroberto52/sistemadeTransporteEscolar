@@ -102,6 +102,9 @@ namespace sistemadeTransporteEscolar
             }
             Banco.StudentUpdate(estudante);
             dgv_usuarios.DataSource = Banco.ObterStudentIdNomePago();
+            dgv_usuarios.Columns[0].Width = 85;
+            dgv_usuarios.Columns[1].Width = 155;
+            dgv_usuarios.Columns[2].Width = 35;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -139,7 +142,15 @@ namespace sistemadeTransporteEscolar
 
                     paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
                     paragrafo.Alignment = Element.ALIGN_CENTER;
-                    paragrafo.Add("Valor contartual: ");
+                    paragrafo.Add("Nome do aluno: " + tb_NomeAluno.Text);
+                    paragrafo.Add("\n");
+                    
+                    paragrafo.Add("Hora do pagamento: " + DateTime.Now);
+                    paragrafo.Add("\n");
+
+                    paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Valor contratual: R$");
                     paragrafo.Add(ValContratual + "\n");
                     paragrafo.Add("\n");
                     paragrafo.Add("\n");
@@ -161,6 +172,19 @@ namespace sistemadeTransporteEscolar
                 MessageBox.Show("Aluno ainda não pago! o comprovante sera gerado quando a caixa de 'Pago' for 'Sim'");
             }
         }
-            
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+             DialogResult res = MessageBox.Show("Deseja realmente deletar esse usuario? esta ação não pode ser revertida!", "Deletar?", MessageBoxButtons.YesNo);
+             if (res == DialogResult.Yes)
+             {
+                Banco.DelStudent(tb_id.Text);
+                dgv_usuarios.DataSource = Banco.ObterStudentIdNome();
+                dgv_usuarios.DataSource = Banco.ObterStudentIdNomePago();
+                dgv_usuarios.Columns[0].Width = 85;
+                dgv_usuarios.Columns[1].Width = 155;
+                dgv_usuarios.Columns[2].Width = 35;
+            }
+        }
     }
 }

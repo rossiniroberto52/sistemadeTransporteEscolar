@@ -17,7 +17,6 @@ namespace sistemadeTransporteEscolar
         public Form1()
         {
             InitializeComponent();
-            label3.Text = Global.Way.ToString();
             F_Login f_login = new F_Login(this); //user: admin; password: 123
             f_login.ShowDialog();
         }
@@ -92,6 +91,11 @@ namespace sistemadeTransporteEscolar
             Global.logado = false;
             Global.UserLevel = 0;
             pictureBox1.Image = Properties.Resources.led_vermelho1;
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

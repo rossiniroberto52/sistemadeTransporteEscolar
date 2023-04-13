@@ -84,6 +84,7 @@ namespace sistemadeTransporteEscolar
         {
             Student estudante = new Student();
             estudante.N_ID = Convert.ToInt32(tb_id.Text);
+            estudante.T_ENDERECO = tb_endereco.Text;
             estudante.T_NOME_ALUNO = tb_NomeAluno.Text;
             estudante.T_FONE = tb_TelResp.Text;
             estudante.T_NOME_RESP = tb_NomeResp.Text;
@@ -144,8 +145,11 @@ namespace sistemadeTransporteEscolar
                     paragrafo.Alignment = Element.ALIGN_CENTER;
                     paragrafo.Add("Nome do aluno: " + tb_NomeAluno.Text);
                     paragrafo.Add("\n");
-                    
-                    paragrafo.Add("Hora do pagamento: " + DateTime.Now);
+
+                    paragrafo.Add("Endereço do aluno: " + tb_endereco.Text);
+                    paragrafo.Add("\n");
+
+                    paragrafo.Add("Hora da emissão do comprovante: " + DateTime.Now);
                     paragrafo.Add("\n");
 
                     paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
@@ -158,6 +162,11 @@ namespace sistemadeTransporteEscolar
                     paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
                     paragrafo.Alignment = Element.ALIGN_CENTER;
                     paragrafo.Add("Assinatura: Kially Souto Maior Da Silva");
+                    paragrafo.Add("\n");
+
+
+                    paragrafo.Add("OBS: Este pdf não é um documento oficial e por tanto não legitimo. O unico reconhecido pela unidade federativa Brasileira \né a que foi a entregue no ato do pagamento");
+                    paragrafo.Add("\n");
 
                     doc.Open();
                     doc.Add(paragrafo);

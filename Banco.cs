@@ -231,6 +231,26 @@ namespace sistemadeTransporteEscolar
             }
         }
 
+        public static void DelStudent(string id)
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                var vcon = conectDB();
+                var cmd = vcon.CreateCommand();
+                cmd.CommandText = "DELETE from tb_aluno WHERE N_ID = " + id;
+                da = new SQLiteDataAdapter(cmd.CommandText, vcon);
+                cmd.ExecuteNonQuery();
+                vcon.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro no banco de dados. problem in func: DelStudent");
+                throw ex;
+            }
+        }
+
         public static void StudentUpdate(Student u)
         {
             SQLiteDataAdapter da = null;
@@ -260,6 +280,26 @@ namespace sistemadeTransporteEscolar
                 var vcon = conectDB();
                 var cmd = vcon.CreateCommand();
                 cmd.CommandText = "SELECT  N_ID as 'id', T_USERNAME as 'Username' FROM tb_users";
+                da = new SQLiteDataAdapter(cmd.CommandText, vcon);
+                da.Fill(dt);
+                vcon.Close();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static DataTable ObterStudentIdNome()
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                var vcon = conectDB();
+                var cmd = vcon.CreateCommand();
+                cmd.CommandText = "SELECT  N_ID as 'id', T_NOME_ALUNO as 'Username' FROM tb_aluno";
                 da = new SQLiteDataAdapter(cmd.CommandText, vcon);
                 da.Fill(dt);
                 vcon.Close();

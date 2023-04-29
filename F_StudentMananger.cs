@@ -84,6 +84,7 @@ namespace sistemadeTransporteEscolar
         {
             Student estudante = new Student();
             estudante.N_ID = Convert.ToInt32(tb_id.Text);
+            estudante.T_ENDERECO = tb_endereco.Text;
             estudante.T_NOME_ALUNO = tb_NomeAluno.Text;
             estudante.T_FONE = tb_TelResp.Text;
             estudante.T_NOME_RESP = tb_NomeResp.Text;
@@ -102,6 +103,9 @@ namespace sistemadeTransporteEscolar
             }
             Banco.StudentUpdate(estudante);
             dgv_usuarios.DataSource = Banco.ObterStudentIdNomePago();
+            dgv_usuarios.Columns[0].Width = 85;
+            dgv_usuarios.Columns[1].Width = 155;
+            dgv_usuarios.Columns[2].Width = 35;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -132,14 +136,25 @@ namespace sistemadeTransporteEscolar
                     //To-do
 
                     //add LOGO in pdf
-                    /*System.Drawing.Image pImage = System.Drawing.Image.FromFile("C:\\Users\\rossi\\OneDrive\\Documentos\\projeto_mamae\\imgs\\logoTemp.png");
+                    /*System.Drawing.Image pImage = System.Drawing.Image.FromFile("");
                     iTextSharp.text.Image itextImage = iTextSharp.text.Image.GetInstance(pImage, System.Drawing.Imaging.ImageFormat.Png);
                     itextImage.Alignment = Element.ALIGN_LEFT;*/
                     //paragrafo.Add(PngWriter());
 
                     paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
                     paragrafo.Alignment = Element.ALIGN_CENTER;
-                    paragrafo.Add("Valor contartual: ");
+                    paragrafo.Add("Nome do aluno: " + tb_NomeAluno.Text);
+                    paragrafo.Add("\n");
+
+                    paragrafo.Add("Endereço do aluno: " + tb_endereco.Text);
+                    paragrafo.Add("\n");
+
+                    paragrafo.Add("Hora da emissão do comprovante: " + DateTime.Now);
+                    paragrafo.Add("\n");
+
+                    paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
+                    paragrafo.Alignment = Element.ALIGN_CENTER;
+                    paragrafo.Add("Valor contratual: R$");
                     paragrafo.Add(ValContratual + "\n");
                     paragrafo.Add("\n");
                     paragrafo.Add("\n");
@@ -147,6 +162,11 @@ namespace sistemadeTransporteEscolar
                     paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14, (int)FontStyle.Italic);
                     paragrafo.Alignment = Element.ALIGN_CENTER;
                     paragrafo.Add("Assinatura: Kially Souto Maior Da Silva");
+                    paragrafo.Add("\n");
+
+
+                    paragrafo.Add("OBS: Este pdf não é um documento oficial e por tanto não legitimo. O unico reconhecido pela unidade federativa Brasileira \né a que foi a entregue no ato do pagamento");
+                    paragrafo.Add("\n");
 
                     doc.Open();
                     doc.Add(paragrafo);
@@ -161,6 +181,19 @@ namespace sistemadeTransporteEscolar
                 MessageBox.Show("Aluno ainda não pago! o comprovante sera gerado quando a caixa de 'Pago' for 'Sim'");
             }
         }
-            
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+             DialogResult res = MessageBox.Show("Deseja realmente deletar esse usuario? esta ação não pode ser revertida!", "Deletar?", MessageBoxButtons.YesNo);
+             if (res == DialogResult.Yes)
+             {
+                Banco.DelStudent(tb_id.Text);
+                dgv_usuarios.DataSource = Banco.ObterStudentIdNome();
+                dgv_usuarios.DataSource = Banco.ObterStudentIdNomePago();
+                dgv_usuarios.Columns[0].Width = 85;
+                dgv_usuarios.Columns[1].Width = 155;
+                dgv_usuarios.Columns[2].Width = 35;
+            }
+        }
     }
 }

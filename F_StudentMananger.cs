@@ -136,7 +136,7 @@ namespace sistemadeTransporteEscolar
                     //To-do
 
                     //add LOGO in pdf
-                    /*System.Drawing.Image pImage = System.Drawing.Image.FromFile("C:\\Users\\rossi\\OneDrive\\Documentos\\projeto_mamae\\imgs\\logoTemp.png");
+                    /*System.Drawing.Image pImage = System.Drawing.Image.FromFile("");
                     iTextSharp.text.Image itextImage = iTextSharp.text.Image.GetInstance(pImage, System.Drawing.Imaging.ImageFormat.Png);
                     itextImage.Alignment = Element.ALIGN_LEFT;*/
                     //paragrafo.Add(PngWriter());

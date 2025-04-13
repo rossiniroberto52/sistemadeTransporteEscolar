@@ -125,7 +125,7 @@ namespace sistemadeTransporteEscolar
                 cmd.Parameters.AddWithValue("@username", user.T_USERNAME);
                 cmd.Parameters.AddWithValue("@nome", user.T_NOME);
                 cmd.Parameters.AddWithValue("@password", user.T_PASSWORD);
-                cmd.Parameters.AddWithValue("level", Convert.ToInt32(user.N_USERLEVEL));
+                cmd.Parameters.AddWithValue("@level", Convert.ToInt32(user.N_USERLEVEL));
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Novo usuario cadastrado com total exito!");
             }
